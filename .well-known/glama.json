@@ -1,0 +1,10 @@
+{
+  "name": "slidphi-services",
+  "transport": "stdio",
+  "entrypoint": "node server.js",
+  "description": "Slid Phi Labs public services MCP server — x402 payment info (prices, payment terms) and live health for PCC, Agent-Rider, CuNi Studio, and the x402 API. Read-only; no credentials required. Nothing here pays or mutates.",
+  "repository": "https://github.com/ceedot-rock/slidphi-mcp-services",
+  "websiteUrl": "https://www.slidphilabs.com",
+  "documentationUrl": "https://www.slidphilabs.com/mcp-service",
+  "env": {}
+}
