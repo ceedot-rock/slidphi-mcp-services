@@ -34,6 +34,12 @@ const PAID_PATHS = {
   slidx_info: "/api/x402/slidx/info",
   cuni_check: "/api/x402/cuni/check",
   cuni_seats: "/api/x402/cuni/seats",
+  cuni_emit: "/api/x402/cuni/emit",
+  cuni_ingest: "/api/x402/cuni/ingest",
+  trustream_pack: "/api/x402/trustream/pack",
+  trustream_unpack: "/api/x402/trustream/unpack",
+  trustream_info: "/api/x402/trustream/info",
+  awareness_scan: "/api/x402/awareness/scan",
 };
 
 const HEALTH_TARGETS = [
@@ -84,13 +90,13 @@ const TOOLS = [
   {
     name: "x402_service_info",
     description:
-      "About the Agent Rider x402 HTTP API: service name, x402 version, Base network, USDC contract, lab pay-to address, and the list of paid endpoints with prices. Free, no credentials.",
+      "About the Agent Rider x402 HTTP API: service name, x402 version, the five payment rails (Base, Polygon, Arbitrum One, Optimism, Solana), USDC contracts, lab pay-to addresses, and the list of paid endpoints with prices. Free, no credentials.",
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
   },
   {
     name: "x402_prices",
     description:
-      "Full per-call price table (USDC cents) for the x402 API: ping, pcc compress/decompress/info, slidx compress/decompress/info, cuni check/seats. Free, no credentials.",
+      "Full per-call price table (USDC cents) for the x402 API: ping, pcc/slidx compress/decompress/info, cuni check/seats/emit/ingest, trustream pack/unpack/info, awareness scan. Free, no credentials.",
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
   },
   {
@@ -141,7 +147,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     const product = args?.product;
     const path = PAID_PATHS[product];
     if (!path) throw new Error("unknown product: " + product);
-    // The 402 payment terms are only issued on POST; a GET 404s.
+    // Unpaid POST returns 402 with payment terms; unpaid GET/HEAD on paid
+    // routes also returns 402.
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), 12000);
     let res;
