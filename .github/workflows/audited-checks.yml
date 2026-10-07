@@ -1,0 +1,54 @@
+name: Audited checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  audited:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install dependencies
+        run: npm ci --omit=dev
+      - name: Syntax check
+        run: node --check server.js
+      - name: Version metadata in sync
+        run: |
+          node -e "
+            const pkg = require('./package.json');
+            const src = require('fs').readFileSync('./server.js', 'utf8');
+            const m = src.match(/const VERSION = ['\"]([^'\"]+)['\"]/);
+            if (!m) { console.error('VERSION constant not found in server.js'); process.exit(1); }
+            if (pkg.version !== m[1]) {
+              console.error('version mismatch: package.json=' + pkg.version + ' server.js=' + m[1]);
+              process.exit(1);
+            }
+            console.log('version OK: ' + pkg.version);
+          "
+      - name: License metadata in sync
+        run: |
+          grep -q 'GNU AFFERO GENERAL PUBLIC LICENSE' LICENSE
+          node -e "
+            const lic = require('./package.json').license;
+            if (!/AGPL-3\.0-or-later/i.test(lic)) {
+              console.error('package.json license contradicts LICENSE: ' + lic);
+              process.exit(1);
+            }
+            console.log('license OK: ' + lic);
+          "
+      - name: Startup smoke test (mocked x402 health)
+        run: |
+          node -e "
+            global.fetch = async (url) => {
+              if (String(url).endsWith('/health')) return new Response('{\"ok\":true}', { status: 200 });
+              throw new Error('unexpected network call in smoke test: ' + url);
+            };
+            import('./server.js').catch(e => { console.error(e.message); process.exit(1); });
+            setTimeout(() => { console.log('startup smoke OK'); process.exit(0); }, 3000);
+          "
