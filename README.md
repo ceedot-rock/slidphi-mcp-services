@@ -1,5 +1,8 @@
 # slidphi-services
 
+[![Audited checks](https://github.com/ceedot-rock/slidphi-mcp-services/actions/workflows/audited-checks.yml/badge.svg)](https://github.com/ceedot-rock/slidphi-mcp-services/actions/workflows/audited-checks.yml)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
+
 Public MCP stdio server for the Slid Phi Labs services that are **not**
 covered by the hosted MCP catalog (`slid-phi-labs` on www.slidphilabs.com/mcp).
 
