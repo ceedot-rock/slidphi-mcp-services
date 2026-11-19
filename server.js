@@ -8,7 +8,7 @@
  *       service info, price table, per-call payment terms (402s)
  *   - Live health of the lab's public services:
  *       PCC (slidphilabs.com), Rider (agentrider.fly.dev),
- *       CuNi Studio (cuni-studio.fly.dev), x402 (rider-x402.fly.dev)
+ *       CuNi Studio (spl-cuni-studio.fly.dev), x402 (rider-x402.fly.dev)
  *
  * Everything here is safe for a stranger: read-only, no credentials,
  * no keys, no secrets. Paid x402 endpoints are never called with payment;
@@ -45,7 +45,7 @@ const PAID_PATHS = {
 const HEALTH_TARGETS = [
   { service: "pcc", url: "https://slidphilabs.com/" },
   { service: "rider", url: "https://agentrider.fly.dev/" },
-  { service: "cuni", url: "https://cuni-studio.fly.dev/bank" },
+  { service: "cuni", url: "https://spl-cuni-studio.fly.dev/bank" },
   { service: "x402", url: "https://rider-x402.fly.dev/health" },
 ];
 
@@ -119,7 +119,7 @@ const TOOLS = [
   {
     name: "lab_service_health",
     description:
-      "Quick live health check of the lab's public services: PCC (slidphilabs.com), Rider (agentrider.fly.dev), CuNi Studio (cuni-studio.fly.dev), and the x402 API. One fast attempt per service (10s timeout); ok means HTTP 200. This is a quick check, not the lab's full spaced-retry outage series — a single failure here is a blip until rechecked.",
+      "Quick live health check of the lab's public services: PCC (slidphilabs.com), Rider (agentrider.fly.dev), CuNi Studio (spl-cuni-studio.fly.dev), and the x402 API. One fast attempt per service (10s timeout); ok means HTTP 200. This is a quick check, not the lab's full spaced-retry outage series — a single failure here is a blip until rechecked.",
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
   },
 ];

@@ -34,6 +34,6 @@ unless you prefer to stay anonymous.
 
 - Operator deployments we do not run
 - Outages or wrong data from the upstream services this server reports
-  on (slidphilabs.com, agentrider.fly.dev, cuni-studio.fly.dev,
+  on (slidphilabs.com, agentrider.fly.dev, spl-cuni-studio.fly.dev,
   rider-x402.fly.dev) — report those to their operators
 - Social engineering, spam, or denial-of-service against hosted demos
